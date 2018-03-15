@@ -44,8 +44,8 @@
 ** 
 ****************************************************************************/
 
-#ifndef QTTELNET_H
-#define QTTELNET_H
+#ifndef QTELNET_H
+#define QTELNET_H
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -53,31 +53,16 @@
 #include <QtCore/QRegExp>
 #include <QtNetwork/QTcpSocket>
 
-class QtTelnetPrivate;
+#include "qtelnetglobal.h"
 
-#if defined(Q_WS_WIN)
-#  if !defined(QT_QTTELNET_EXPORT) && !defined(QT_QTTELNET_IMPORT)
-#    define QT_QTTELNET_EXPORT
-#  elif defined(QT_QTTELNET_IMPORT)
-#    if defined(QT_QTTELNET_EXPORT)
-#      undef QT_QTTELNET_EXPORT
-#    endif
-#    define QT_QTTELNET_EXPORT __declspec(dllimport)
-#  elif defined(QT_QTTELNET_EXPORT)
-#    undef QT_QTTELNET_EXPORT
-#    define QT_QTTELNET_EXPORT __declspec(dllexport)
-#  endif
-#else
-#  define QT_QTTELNET_EXPORT
-#endif
-
-class QT_QTTELNET_EXPORT QtTelnet : public QObject
+class QTelnetPrivate;
+class Q_TELNET_EXPORT QTelnet : public QObject
 {
     Q_OBJECT
-    friend class QtTelnetPrivate;
+    friend class QTelnetPrivate;
 public:
-    QtTelnet(QObject *parent = 0);
-    ~QtTelnet();
+    QTelnet(QObject *parent = Q_NULLPTR);
+    virtual ~QTelnet();
 
     enum Control { GoAhead, InterruptProcess, AreYouThere, AbortOutput,
                    EraseCharacter, EraseLine, Break, EndOfFile, Suspend,
@@ -98,6 +83,7 @@ public:
     void setPromptPattern(const QRegExp &pattern);
     void setPromptString(const QString &pattern)
     { setPromptPattern(QRegExp(QRegExp::escape(pattern))); }
+
 public Q_SLOTS:
     void close();
     void logout();
@@ -124,6 +110,6 @@ public:
     { setPasswordPattern(QRegExp(QRegExp::escape(pattern))); }
 
 private:
-    QtTelnetPrivate *d;
+    QTelnetPrivate *d;
 };
 #endif
