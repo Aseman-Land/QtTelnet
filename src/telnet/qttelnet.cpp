@@ -53,7 +53,7 @@
     connectToHost() to establish a connection with a Telnet server.
     When the connection is established the connected() signal is
     emitted. At this point you should call login(). The
-    QtTelnet object will emit connectionError() if the connection
+    QtTelnet object will Q_EMIT connectionError() if the connection
     fails, and authenticationFailed() if the login() failed.
 
     Once the connection has been successfully established and
@@ -682,7 +682,7 @@ void QtTelnetPrivate::parseSubAuth(const QByteArray &data)
             pos += 2;
 
             if (curauth) {
-                emit q->loginRequired();
+                Q_EMIT q->loginRequired();
                 break;
             }
         }
@@ -690,7 +690,7 @@ void QtTelnetPrivate::parseSubAuth(const QByteArray &data)
             curauth = new QtTelnetAuthNull;
             nullauth = true;
             if (loginp.isEmpty() && passp.isEmpty()) {
-                // emit q->loginRequired();
+                // Q_EMIT q->loginRequired();
                 nocheckp = true;
             }
         }
@@ -701,10 +701,10 @@ void QtTelnetPrivate::parseSubAuth(const QByteArray &data)
             sendCommand(a);
 
         if (curauth->state() == QtTelnetAuth::AuthFailure)
-            emit q->loginFailed();
+            Q_EMIT q->loginFailed();
         else if (curauth->state() == QtTelnetAuth::AuthSuccess) {
             if (loginp.isEmpty() && passp.isEmpty())
-                emit q->loggedIn();
+                Q_EMIT q->loggedIn();
             if (!nullauth)
                 nocheckp = true;
         }
@@ -730,7 +730,7 @@ int QtTelnetPrivate::parseIAC(const QByteArray &data)
         }
         if (operation == Common::DONT && option == Common::Authentication) {
             if (loginp.isEmpty() && passp.isEmpty())
-                emit q->loggedIn();
+                Q_EMIT q->loggedIn();
             nullauth = true;
         }
         if (replyNeeded(operation, option)) {
@@ -782,16 +782,16 @@ int QtTelnetPrivate::parsePlaintext(const QByteArray &data)
 
     if (!nocheckp && nullauth) {
         if (!promptp.isEmpty() && promptp.indexIn(text) != -1) {
-            emit q->loggedIn();
+            Q_EMIT q->loggedIn();
             nocheckp = true;
         }
     }
     if (!nocheckp && nullauth) {
         if (!loginp.isEmpty() && loginp.indexIn(text) != -1) {
             if (triedlogin || firsttry) {
-                emit q->message(text);    // Display the login prompt
+                Q_EMIT q->message(text);    // Display the login prompt
                 text.clear();
-                emit q->loginRequired();  // Get a (new) login
+                Q_EMIT q->loginRequired();  // Get a (new) login
                 firsttry = false;
             }
             if (!triedlogin) {
@@ -801,9 +801,9 @@ int QtTelnetPrivate::parsePlaintext(const QByteArray &data)
         }
         if (!passp.isEmpty() && passp.indexIn(text) != -1) {
             if (triedpass || firsttry) {
-                emit q->message(text);    // Display the password prompt
+                Q_EMIT q->message(text);    // Display the password prompt
                 text.clear();
-                emit q->loginRequired();  // Get a (new) pass
+                Q_EMIT q->loginRequired();  // Get a (new) pass
                 firsttry = false;
             }
             if (!triedpass) {
@@ -817,7 +817,7 @@ int QtTelnetPrivate::parsePlaintext(const QByteArray &data)
     }
 
     if (!text.isEmpty())
-        emit q->message(text);
+        Q_EMIT q->message(text);
     return consumed;
 }
 
@@ -942,6 +942,8 @@ void QtTelnetPrivate::socketConnected()
     connect(notifier, SIGNAL(activated(int)),
             this, SLOT(socketException(int)));
     sendOptions();
+
+    Q_EMIT q->connected();
 }
 
 void QtTelnetPrivate::socketException(int)
@@ -954,7 +956,8 @@ void QtTelnetPrivate::socketConnectionClosed()
     delete notifier;
     notifier = 0;
     connected = false;
-    emit q->loggedOut();
+    Q_EMIT q->loggedOut();
+    Q_EMIT q->disconnected();
 }
 
 void QtTelnetPrivate::socketReadyRead()
@@ -965,7 +968,7 @@ void QtTelnetPrivate::socketReadyRead()
 
 void QtTelnetPrivate::socketError(QAbstractSocket::SocketError error)
 {
-    emit q->connectionError(error);
+    Q_EMIT q->connectionError(error);
 }
 
 /*!
@@ -1061,7 +1064,7 @@ void QtTelnet::close()
     d->notifier = 0;
     d->connected = false;
     d->socket->close();
-    emit loggedOut();
+    Q_EMIT loggedOut();
 }
 
 /*!

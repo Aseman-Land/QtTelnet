@@ -110,6 +110,8 @@ Q_SIGNALS:
     void loginFailed();
     void loggedIn();
     void loggedOut();
+    void connected();
+    void disconnected();
     void connectionError(QAbstractSocket::SocketError error);
     void message(const QString &data);
 
