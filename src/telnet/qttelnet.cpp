@@ -1,17 +1,17 @@
 /****************************************************************************
 **
 ** This file is part of a Qt Solutions component.
-** 
+**
 ** Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
-** 
+**
 ** Contact:  Qt Software Information (qt-info@nokia.com)
-** 
-** Commercial Usage  
+**
+** Commercial Usage
 ** Licensees holding valid Qt Commercial licenses may use this file in
 ** accordance with the Qt Solutions Commercial License Agreement provided
 ** with the Software or, alternatively, in accordance with the terms
 ** contained in a written agreement between you and Nokia.
-** 
+**
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
 ** General Public License version 2.1 as published by the Free Software
@@ -19,29 +19,29 @@
 ** packaging of this file.  Please review the following information to
 ** ensure the GNU Lesser General Public License version 2.1 requirements
 ** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-** 
+**
 ** In addition, as a special exception, Nokia gives you certain
 ** additional rights. These rights are described in the Nokia Qt LGPL
 ** Exception version 1.0, included in the file LGPL_EXCEPTION.txt in this
 ** package.
-** 
-** GNU General Public License Usage 
+**
+** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
 ** General Public License version 3.0 as published by the Free Software
 ** Foundation and appearing in the file LICENSE.GPL included in the
 ** packaging of this file.  Please review the following information to
 ** ensure the GNU General Public License version 3.0 requirements will be
 ** met: http://www.gnu.org/copyleft/gpl.html.
-** 
+**
 ** Please note Third Party Software included with Qt Solutions may impose
 ** additional restrictions and it is the user's responsibility to ensure
 ** that they have met the licensing requirements of the GPL, LGPL, or Qt
 ** Solutions Commercial license and the relevant license of the Third
 ** Party Software they are using.
-** 
+**
 ** If you are unsure which license is appropriate for your use, please
 ** contact the sales department at qt-sales@nokia.com.
-** 
+**
 ****************************************************************************/
 
 /*!
@@ -136,25 +136,25 @@ private:
 namespace Common // RFC854
 {
     // Commands
-    const uchar CEOF  = 236;
-    const uchar SUSP  = 237;
-    const uchar ABORT = 238;
-    const uchar SE    = 240;
-    const uchar NOP   = 241;
-    const uchar DM    = 242;
-    const uchar BRK   = 243;
-    const uchar IP    = 244;
-    const uchar AO    = 245;
-    const uchar AYT   = 246;
-    const uchar EC    = 247;
-    const uchar EL    = 248;
-    const uchar GA    = 249;
-    const uchar SB    = 250;
-    const uchar WILL  = 251;
-    const uchar WONT  = 252;
-    const uchar DO    = 253;
-    const uchar DONT  = 254;
-    const uchar IAC   = 255;
+    const char CEOF  = 236;
+    const char SUSP  = 237;
+    const char ABORT = 238;
+    const char SE    = 240;
+    const char NOP   = 241;
+    const char DM    = 242;
+    const char BRK   = 243;
+    const char IP    = 244;
+    const char AO    = 245;
+    const char AYT   = 246;
+    const char EC    = 247;
+    const char EL    = 248;
+    const char GA    = 249;
+    const char SB    = 250;
+    const char WILL  = 251;
+    const char WONT  = 252;
+    const char DO    = 253;
+    const char DONT  = 254;
+    const char IAC   = 255;
 
     // Types
     const char IS    = 0;
@@ -165,7 +165,7 @@ namespace Common // RFC854
     const char SuppressGoAhead = 3; // RFC858
     const char Echo = 1; // RFC857, not implemented (returns WONT/DONT)
     const char LineMode = 34; // RFC1184, implemented
-    const uchar LineModeEOF = 236, // RFC1184, not implemented
+    const char LineModeEOF = 236, // RFC1184, not implemented
                 LineModeSUSP = 237,
                 LineModeABORT = 238;
     const char Status = 5; // RFC859, should be implemented!
