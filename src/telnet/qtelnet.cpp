@@ -774,7 +774,7 @@ void QTelnetPrivate::sendWindowSize()
     short h = htons(windowSize.height());
     short w = htons(windowSize.width());
     const char c[9] = { Common::IAC, Common::SB, Common::NAWS,
-                        (w & 0x00ff), (w >> 8), (h & 0x00ff), (h >> 8),
+                        (char)(w & 0x00ff), (char)(w >> 8), (char)(h & 0x00ff), (char)(h >> 8),
                         Common::IAC, Common::SE };
     sendCommand(c, sizeof(c));
 }
